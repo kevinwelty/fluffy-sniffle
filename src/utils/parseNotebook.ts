@@ -30,13 +30,6 @@ type Notebook = {
 
 };
 
-function toSourceText(src: string | string[] | undefined): string {
-
-    if (src == null) return '';
-
-    return Array.isArray(src) ? src.join('') : src;
-
-}
 
 export async function parseNotebook(content: string): Promise<Event[]> {
 
