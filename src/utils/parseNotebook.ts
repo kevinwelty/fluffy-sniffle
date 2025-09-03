@@ -4,7 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Import the helper from your vendored schema file
 
-import { events} from '../third_party/runt-schema/mod';
+import {
+    CellType,
+    createCellBetween,
+    CellReference,
+    CellOperationResult
+} from '../third_party/runt-schema/mod';
 
 type Event = { name: string; args: Record<string, any> };
 
@@ -31,7 +36,7 @@ type Notebook = {
 };
 
 
-export async function parseNotebook(content: string): Promise<Event[]> {
+export async function parseNotebook(content: string, existingCells: CellReference[] = []): Promise<CellOperationResult[]> {
 
 // Parse the JSON safely
 
@@ -57,33 +62,30 @@ export async function parseNotebook(content: string): Promise<Event[]> {
 
     const userId = `uuid-${uuidv4()}`;
 
-    const events: Event[] = [];
+    const events: CellOperationResult[] = [];
+
+
+    const allCells: CellReference[] = [...existingCells];
+
+
 
 
     notebook.cells.forEach((cell: NbCell, index: number) => {
-        // const createEvent = events.cellCreated2({
-        //     ...cellData,
-        //     fractionalIndex: result.index!,
-        // });
+        const eve = createCellBetween(
+            {   id: userId,
+                cellType: cell.cell_type as CellType,
+                createdBy: userId,},
+            null,
+            null,
+            allCells
+
+
+        );
 
 
 
 
-        events.push({
-
-            name: cell.cell_type,
-
-            args: {
-
-                id: 'cellId',
-
-                cellType: cell.cell_type,
-
-                createdBy: userId,
-
-            },
-
-        });
+        events.push(eve);
 
 
     });
