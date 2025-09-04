@@ -44,8 +44,6 @@ export async function parseNotebook(content: string, existingCells: CellReferenc
     try {
 
         notebook = JSON.parse(content);
-        console.log(notebook)
-        console.log(notebook['cells'])
 
     } catch {
 
