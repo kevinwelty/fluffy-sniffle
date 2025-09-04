@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -11,7 +11,6 @@ import {
     CellOperationResult
 } from '../third_party/runt-schema/mod';
 
-type Event = { name: string; args: Record<string, any> };
 
 type NbCell = {
 
@@ -70,7 +69,7 @@ export async function parseNotebook(content: string, existingCells: CellReferenc
 
 
 
-    notebook.cells.forEach((cell: NbCell, index: number) => {
+    notebook.cells.forEach((cell: NbCell) => {
         const eve = createCellBetween(
             {   id: userId,
                 cellType: cell.cell_type as CellType,
