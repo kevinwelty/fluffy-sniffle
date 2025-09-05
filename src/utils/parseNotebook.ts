@@ -105,5 +105,13 @@ export function* numberGenerator(all_cells: CellReference[] = [], notebook: Note
             });
             yield createEvent;
         }
+        if (cell.cell_type === 'code') {
+            const createEvent = events.cellSourceChanged({
+                id:userId,
+                source: String(cell.source ?? ""),
+                modifiedBy: userId,
+            });
+            yield createEvent;
+        }
     }
 }
